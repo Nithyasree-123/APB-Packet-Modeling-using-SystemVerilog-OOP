@@ -1,20 +1,23 @@
-# Experiment 3: Create and Use Classes and Objects to Model APB Packet.
+# EXPERIMENT 3: CREATE AND USE CLASSES AND OBJECTS TO MODEL APB PACKET
 
 ---
 
-## Aim  
+## AIM:
+
 To design and verify an **APB (Advanced Peripheral Bus) packet model** using **SystemVerilog object-oriented programming concepts** such as classes and objects, and simulate it using **ModelSim 2020.1**.
 
 ---
 
-## Apparatus Required  
+## APPARATUS REQUIRED:
+
 - Computer with **Windows OS**  
 - **ModelSim 2020.1** (or later)  
 - SystemVerilog source code editor  
 
 ---
 
-## Description about APB Packet Modeling  
+## DESCRIPITION ABOUT APB PACKET MODELING:
+
 The **Advanced Peripheral Bus (APB)** is part of the AMBA protocol family used for connecting low-bandwidth peripherals.  
 In this experiment, we use **SystemVerilog OOP concepts** to model an APB packet.  
 
@@ -27,7 +30,8 @@ In this experiment, we use **SystemVerilog OOP concepts** to model an APB packet
 
 ---
 
-## Features  
+## FEATURES:
+
 - Written in **SystemVerilog OOP style**  
 - Defines an **APB Packet class** with properties (address, data, control signals)  
 - Includes **methods** for packet initialization and display  
@@ -36,7 +40,7 @@ In this experiment, we use **SystemVerilog OOP concepts** to model an APB packet
 
 ---
 
-## Procedure  
+## PROCEDURE:  
 
 1. **Open ModelSim 2020.1**  
    - Launch ModelSim from Start Menu.  
@@ -68,48 +72,76 @@ In this experiment, we use **SystemVerilog OOP concepts** to model an APB packet
 
 ---
 
-## SystemVerilog Code   
+## SYSTEMVERILOG CODE:
 
-### APB Packet Class (`apb_packet.sv`)  
-```systemverilog
-// Skeleton code for APB Packet class
-class apb_packet;
 
-  // Declare properties (e.g., address, data, control signals)
+### APB PACKET CLASS :
 
-  // Constructor
+```
+module apb_packet_demo;
 
-  // Method to display packet
-endclass
+  class APB_Packet;
+    rand bit [31:0] addr;   // Address
+    rand bit [31:0] data;   // Data
+    rand bit        wr;     // Write(1)/Read(0)
+    string resp;            // Response
+
+    // Constructor
+    function new(bit [31:0] addr = 0, bit [31:0] data = 0, bit wr = 0);
+      this.addr = addr;
+      this.data = data;
+      this.wr   = wr;
+      this.resp = "OK";
+    endfunction
+/ Display method
+    function void display();
+      $display("APB Packet => Addr: %h, Data: %h, WR: %0b, Resp: %s", 
+                addr, data, wr, resp);
+    endfunction
+  endclass
+
+  // Derived class: Write Packet
+  class APB_WritePacket extends APB_Packet;
+    function new(bit [31:0] addr, bit [31:0] data);
+      super.new(addr, data, 1); // Write = 1
+endfunction
+  endclass
+
+// Derived class: Read Packet
+
+  class APB_ReadPacket extends APB_Packet;
+    function new(bit [31:0] addr);
+      super.new(addr, 0, 0); // Write = 0
+    endfunction
+  endclass
+
 ```
 
-### APB Packet Class (`apb_tb.sv`) 
-```systemverilog
-// Skeleton code for APB Packet Testbench
-module apb_tb;
+### APB PACKET CLASS: 
 
-  // Declare object of apb_packet class
-
+```
+/ Test program
   initial begin
-    // Create object
-    // Initialize values
-    // Call display method
-  end
+    APB_Packet p; // Base class handle
+
+    // Reuse object for Write Packet
+    p = new APB_WritePacket(32'h1000, 32'hABCD1234);
+    p.display();
+
+    // Reuse same object for Read Packet
+    p = new APB_ReadPacket(32'h2000);
+    p.display();
+  end
 
 endmodule
 ```
 ---
-### Simulation Output
+### SIMULATION OUTPUT:
 
-The simulation is carried out using ModelSim 2020.1.
-
-Output log will show the APB packet details created using class objects.
-
-(Insert console output screenshot here after simulation)
 
 ---
 
-### Result
+### RESULT:
 
 The design and verification of an APB packet model using SystemVerilog classes and objects was successfully carried out in ModelSim 2020.1.
 The experiment demonstrated how OOP concepts simplify modeling and reusability in SystemVerilog testbenches.
