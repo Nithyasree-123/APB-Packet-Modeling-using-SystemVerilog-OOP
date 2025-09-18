@@ -138,7 +138,8 @@ endmodule
 ---
 ### SIMULATION OUTPUT:
 
-![WhatsApp Image 2025-09-16 at 09 28 37_332de66d](https://github.com/user-attachments/assets/7dcd8f66-83d2-43ad-add7-e86ca4b54360)
+<img width="1920" height="1080" alt="Screenshot 2025-09-18 114812" src="https://github.com/user-attachments/assets/35b77af1-19d6-409a-9e33-5d30b1b78bed" />
+
 
 ---
 
